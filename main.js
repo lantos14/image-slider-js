@@ -16,63 +16,49 @@ let imgDescription = document.querySelector('#img-description');
 imgTitle.innerText = imgLinks[1].Title;
 imgDescription.innerText = imgLinks[1].Description;
 
+// thumbnail click event 
+function thumbnailClick(e) {
+  let actualImg = document.querySelector('#center-img');
+  actualImg.setAttribute('src', `${e.target.getAttribute('src')}`)
+  imgTitle.innerText = imgLinks[e.target.id].Title;
+  imgDescription.innerText = imgLinks[e.target.id].Description;
+}
+
 // creating thumbnail pictures
 for (let i = 0; i < imgLinks.length; i++) {
   let imgElement = document.createElement('img');
   imgElement.setAttribute('src', `./img/${imgLinks[i].Src}`);
   imgElement.setAttribute('class', 'thumbnail-img');
+  imgElement.setAttribute('id', `${i}`);
+  imgElement.onclick = thumbnailClick;
 
   thumbnails.appendChild(imgElement);
 }
 
 let thumbImgs = document.querySelectorAll('.thumbnail-img');
 
-// applying arrow buttons
+// arrow buttons
+// left function
+function toggleLeft() {
+  {
+    let actualImg = document.querySelector('#center-img');
+    // finding all sources
+    let srcList = [];
+    imgLinks.forEach(pics => {
+      srcList.push(pics.Src);
+    })
+    // index of actual img src
+    let actualImgIndex = srcList.indexOf((actualImg.getAttribute('src').slice(6)));
 
-function buttons(direction) {
-  let actualImg = document.querySelector('#center-img');
-  // finding all sources
-  let srcList = [];
-  imgLinks.forEach(pics => {
-    srcList.push(pics.Src);
-  })
-  // index of actual img src
-  let actualImgIndex = srcList.indexOf((actualImg.getAttribute('src').slice(6)));
-
-  if (direction === leftarrow) {
     if (actualImgIndex < 1) { } else {
       actualImg.setAttribute('src', `./img/${srcList[actualImgIndex - 1]}`)
-    }
-  }
-
-  if (direction === rightarrow) {
-    if (actualImgIndex > srcList.length - 2) { } else {
-      actualImg.setAttribute('src', `./img/${srcList[actualImgIndex + 1]}`)
+      imgTitle.innerText = imgLinks[actualImgIndex - 1].Title;
+      imgDescription.innerText = imgLinks[actualImgIndex - 1].Description;
     }
   }
 }
-
-leftarrow.onclick = () => {
-  let actualImg = document.querySelector('#center-img');
-  // finding all sources
-  let srcList = [];
-  imgLinks.forEach(pics => {
-    srcList.push(pics.Src);
-  })
-  // index of actual img src
-  let actualImgIndex = srcList.indexOf((actualImg.getAttribute('src').slice(6)));
-
-  if (actualImgIndex < 1) { } else {
-    actualImg.setAttribute('src', `./img/${srcList[actualImgIndex - 1]}`)
-    imgTitle.innerText = imgLinks[actualImgIndex - 1].Title;
-    imgDescription.innerText = imgLinks[actualImgIndex - 1].Description;
-  }
-}
-
-rightarrow.onclick = () => {
-  if (rightarrow) {
-    console.log('this is rigth arrow')
-  }
+// right function
+function toggleRight() {
   let actualImg = document.querySelector('#center-img');
   // finding all sources
   let srcList = [];
@@ -88,33 +74,22 @@ rightarrow.onclick = () => {
     imgDescription.innerText = imgLinks[actualImgIndex + 1].Description;
   }
 }
+// listeners
+leftarrow.onclick = toggleLeft;
+rightarrow.onclick = toggleRight;
 
-// applying onclick event to thumbnails -- hardcoded
+// navigate with keys
+document.body.addEventListener('keydown', onKeyPress);
 
-thumbImgs[0].onclick = () => {
-  let actualImg = document.querySelector('#center-img');
-  actualImg.setAttribute('src', `${thumbImgs[0].getAttribute('src')}`)
-  imgTitle.innerText = imgLinks[0].Title;
-  imgDescription.innerText = imgLinks[0].Description;
-}
+function onKeyPress(event) {
 
-thumbImgs[1].onclick = () => {
-  let actualImg = document.querySelector('#center-img');
-  actualImg.setAttribute('src', `${thumbImgs[1].getAttribute('src')}`)
-  imgTitle.innerText = imgLinks[1].Title;
-  imgDescription.innerText = imgLinks[1].Description;
-}
+  switch (event.keyCode) {
 
-thumbImgs[2].onclick = () => {
-  let actualImg = document.querySelector('#center-img');
-  actualImg.setAttribute('src', `${thumbImgs[2].getAttribute('src')}`)
-  imgTitle.innerText = imgLinks[2].Title;
-  imgDescription.innerText = imgLinks[2].Description;
-}
-
-thumbImgs[3].onclick = () => {
-  let actualImg = document.querySelector('#center-img');
-  actualImg.setAttribute('src', `${thumbImgs[3].getAttribute('src')}`)
-  imgTitle.innerText = imgLinks[3].Title;
-  imgDescription.innerText = imgLinks[3].Description;
+    case 37: // left
+    toggleLeft();
+    break;
+    case 39: // right
+    toggleRight();
+    break;
+  }
 }
