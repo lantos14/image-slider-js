@@ -1,10 +1,10 @@
 'use strict';
 
 const imgLinks = [
-  {Title: 'Earth', Description: 'Earth is a beautiful place', Src: 'earth.jpeg'},
-  {Title: 'Galaxy', Description: 'Galaxy is a wast and dangerous place', Src: 'galaxy.jpeg'},
-  {Title: 'Storm', Description: 'I like Storms', Src: 'storm.jpeg'},
-  {Title: 'Cityscape', Description: 'Don\'t live in cities, it\'s crowded', Src: 'city.jpeg'}
+  { Title: 'Earth', Description: 'Earth is a beautiful place', Src: 'earth.jpeg' },
+  { Title: 'Galaxy', Description: 'Galaxy is a wast and dangerous place', Src: 'galaxy.jpeg' },
+  { Title: 'Storm', Description: 'I like Storms', Src: 'storm.jpeg' },
+  { Title: 'Cityscape', Description: 'Don\'t live in cities, it\'s crowded', Src: 'city.jpeg' }
 ];
 
 let thumbnails = document.querySelector('#thumbnails');
@@ -28,39 +28,64 @@ for (let i = 0; i < imgLinks.length; i++) {
 let thumbImgs = document.querySelectorAll('.thumbnail-img');
 
 // applying arrow buttons
-leftarrow.onclick = () => {
-  if (leftarrow) {
-    console.log('this is left arrow') 
-  }
+
+function buttons(direction) {
   let actualImg = document.querySelector('#center-img');
   // finding all sources
   let srcList = [];
-  imgLinks.forEach( pics => {
+  imgLinks.forEach(pics => {
     srcList.push(pics.Src);
   })
   // index of actual img src
-  let actualImgIndex = srcList.indexOf((actualImg.getAttribute('src').slice(6))); 
-  
+  let actualImgIndex = srcList.indexOf((actualImg.getAttribute('src').slice(6)));
+
+  if (direction === leftarrow) {
+    if (actualImgIndex < 1) { } else {
+      actualImg.setAttribute('src', `./img/${srcList[actualImgIndex - 1]}`)
+    }
+  }
+
+  if (direction === rightarrow) {
+    if (actualImgIndex > srcList.length - 2) { } else {
+      actualImg.setAttribute('src', `./img/${srcList[actualImgIndex + 1]}`)
+    }
+  }
+}
+
+leftarrow.onclick = () => {
+  let actualImg = document.querySelector('#center-img');
+  // finding all sources
+  let srcList = [];
+  imgLinks.forEach(pics => {
+    srcList.push(pics.Src);
+  })
+  // index of actual img src
+  let actualImgIndex = srcList.indexOf((actualImg.getAttribute('src').slice(6)));
+
   if (actualImgIndex < 1) { } else {
     actualImg.setAttribute('src', `./img/${srcList[actualImgIndex - 1]}`)
+    imgTitle.innerText = imgLinks[actualImgIndex - 1].Title;
+    imgDescription.innerText = imgLinks[actualImgIndex - 1].Description;
   }
 }
 
 rightarrow.onclick = () => {
   if (rightarrow) {
-    console.log('this is rigth arrow') 
+    console.log('this is rigth arrow')
   }
   let actualImg = document.querySelector('#center-img');
   // finding all sources
   let srcList = [];
-  imgLinks.forEach( pics => {
+  imgLinks.forEach(pics => {
     srcList.push(pics.Src);
   })
   // index of actual img src
-  let actualImgIndex = srcList.indexOf((actualImg.getAttribute('src').slice(6))); 
-  
+  let actualImgIndex = srcList.indexOf((actualImg.getAttribute('src').slice(6)));
+
   if (actualImgIndex > srcList.length - 2) { } else {
     actualImg.setAttribute('src', `./img/${srcList[actualImgIndex + 1]}`)
+    imgTitle.innerText = imgLinks[actualImgIndex + 1].Title;
+    imgDescription.innerText = imgLinks[actualImgIndex + 1].Description;
   }
 }
 
@@ -90,6 +115,6 @@ thumbImgs[2].onclick = () => {
 thumbImgs[3].onclick = () => {
   let actualImg = document.querySelector('#center-img');
   actualImg.setAttribute('src', `${thumbImgs[3].getAttribute('src')}`)
-  imgTitle.innerText = imgLinks[2].Title;
+  imgTitle.innerText = imgLinks[3].Title;
   imgDescription.innerText = imgLinks[3].Description;
 }
