@@ -1,15 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Gallery</title>
+  <link rel="stylesheet" href="./style.css">
 </head>
+
 <body>
-  
 
+  <div id='gallery'>
 
-  
+    <div id='viewer'>
+
+      <div id='leftarrow' class='arrow'>
+        <img src='./assets/arrow.svg'>
+      </div>
+
+      <div id='view-img'>
+        <img id="center-img" src="./img/galaxy.jpeg">
+      </div>
+
+      <div id='rightarrow' class='arrow'>
+        <img src='./assets/arrow.svg'>
+      </div>
+
+    </div>
+
+    <div id='thumbnails'></div>
+
+  </div>
+
+  <script src="main.js"></script>
+
 </body>
+
 </html>
